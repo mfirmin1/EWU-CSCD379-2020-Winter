@@ -1,0 +1,10 @@
+<Project>
+    <PropertyGroup>
+        <TargetFrameWork>
+            netcoreapp3.1
+        </TargetFramework>
+        <nullable>
+            enable
+        </nullable>
+    </PropertyGroup>
+ </Project>
