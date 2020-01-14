@@ -53,15 +53,5 @@ namespace SecretSanta.Business.Test
             User user = new User(19, "John", "Smith", new List<Gift>());
             Gift gift = new Gift(id, title, description, null!, user);
         }
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void Gift_User_IsNull()
-        {
-            const int id = 0;
-            const string title = "Book";
-            const string description = "Gift";
-            const string url = "Url";
-            Gift gift = new Gift(id, title, description, url, null!);
-        }
     }
 }

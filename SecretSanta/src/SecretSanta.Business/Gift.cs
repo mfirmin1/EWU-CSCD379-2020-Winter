@@ -10,7 +10,7 @@ namespace SecretSanta.Business
         private string _Title = "Invalid";
         private string _Description = "Inavlid";
         private string _Url = "Invalid";
-        private User User { get; set; }
+        public User User { get; set; }
         public Gift(int id, string title, string description, string url, User user)
         {
             Id = id;
@@ -35,11 +35,6 @@ namespace SecretSanta.Business
             get => _Url;
             set => _Url = value ?? throw new ArgumentNullException(nameof(value));
         }
-        /*public User User
-        {
-            get => _User;
-            set => _User = value ?? throw new ArgumentNullException(nameof(value));
-        }*/
 
     }
 }

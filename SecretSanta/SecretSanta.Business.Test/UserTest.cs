@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace SecretSanta.Business.Test
 {
     [TestClass]
-    class UserTest
+    public class UserTest
     {
         [TestMethod]
         public void User_WithAll_ProperInput()
@@ -37,15 +37,6 @@ namespace SecretSanta.Business.Test
             const string FirstName = "John";
             List<Gift> gift = new List<Gift>();
             User user = new User(id, FirstName, null!, gift);
-        }
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void User_GiftList_IsNUll()
-        {
-            const int id = 0;
-            const string FirstName = "John";
-            const string LastName = "Smith";
-            User user = new User(id, FirstName, LastName, null!);
         }
     }
 }
