@@ -7,8 +7,8 @@ namespace SecretSanta.Business
     public class User
     {
         public int Id { get; }
-        private string _FirstName;
-        private string _LastName;
+        private string _FirstName = "Invalid";
+        private string _LastName = "Invalid";
         public List<Gift> Gift { get; }
         public User(int id, string firstName, string lastName, List<Gift> gift)
         {

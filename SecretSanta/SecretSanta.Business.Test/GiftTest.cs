@@ -25,16 +25,6 @@ namespace SecretSanta.Business.Test
         }
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void Gift_ID_IsNull()
-        {
-            const string title = "Book";
-            const string description = "Gift";
-            const string url = "Url";
-            User user = new User(19, "John", "Smith", new List<Gift>());
-            Gift gift = new Gift(null!, title, description, url, user);
-        }
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void Gift_Title_IsNull()
         {
             const int id = 0;
