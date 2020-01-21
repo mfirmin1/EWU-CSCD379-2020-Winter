@@ -12,5 +12,7 @@ namespace SecretSanta.Data
         private string _LastName = string.Empty;
         private User? Santa { get; set; }
         public ICollection<Gift> Gifts { get; set; }
+        private List<UserGroupRelation> _UserGroupRelations = new List<UserGroupRelation>();
+        public List<UserGroupRelation> UserGroupRelations { get => _UserGroupRelations; }
     }
 }

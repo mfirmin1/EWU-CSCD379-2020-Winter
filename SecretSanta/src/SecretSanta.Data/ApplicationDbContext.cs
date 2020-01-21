@@ -25,10 +25,10 @@ namespace SecretSanta.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<GroupUserRelation>().HasKey(gur => new { gur.UserId, gur.GroupId});
+            modelBuilder.Entity<UserGroupRelation>().HasKey(gur => new { gur.UserId, gur.GroupId});
 
-            //modelBuilder.Entity<GroupUserRelation>().HasOne(gur => gur.Group).WithMany(ur => ur.GroupUserRelation).HasForeignKey(gur => gur.UserId);
-           // modelBuilder.Entity<GroupUserRelation>().HasOne(gur => gur.User).WithMany(gu => gu.).HasForeignKey(gur => gur.GroupId);
+            modelBuilder.Entity<UserGroupRelation>().HasOne(gur => gur.Group).WithMany(ur => ur.UserGroup).HasForeignKey(gur => gur.UserId);
+            // modelBuilder.Entity<GroupUserRelation>().HasOne(gur => gur.User).WithMany(gu => gu.).HasForeignKey(gur => gur.GroupId);
         }
 
         public override int SaveChanges()

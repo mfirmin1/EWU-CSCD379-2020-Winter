@@ -6,6 +6,10 @@ namespace SecretSanta.Data
 {
     public class Group : FingerPrintyEntityBase
     {
-        private string Name;
+        private string _Name = string.Empty;
+        private List<UserGroupRelation> _UserGroupRelations = new List<UserGroupRelation>();
+        public string Name { get => _Name; set => _Name = value ?? throw new ArgumentNullException(nameof(value)); }
+        public List<UserGroupRelation> UserGroupRelations { get => _UserGroupRelations; }
+        
     }
 }
