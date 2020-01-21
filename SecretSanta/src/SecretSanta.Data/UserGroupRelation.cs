@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SecretSanta.Data
 {
-    public class GroupUserRelation
+    public class UserGroupRelation
     {
         public int UserId { get; set; }
         public int GroupId { get; set; }
