@@ -10,9 +10,8 @@ namespace SecretSanta.Data
         private string _FirstName = string.Empty;
         public string LastName { get => _LastName; set => _LastName = value ?? throw new ArgumentNullException(nameof(LastName)); }
         private string _LastName = string.Empty;
-        private User? Santa { get; set; }
-        public ICollection<Gift> Gifts { get; set; }
-        private List<UserGroupRelation> _UserGroupRelations = new List<UserGroupRelation>();
-        public List<UserGroupRelation> UserGroupRelations { get => _UserGroupRelations; }
+        public User? Santa { get; set; }
+        public ICollection<Gift> Gifts { get; set; } = new List<Gift>();
+        public List<UserGroupRelation> UserGroupRelations { get; set; } = new List<UserGroupRelation>();
     }
 }
