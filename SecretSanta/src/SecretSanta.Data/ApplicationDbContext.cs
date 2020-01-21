@@ -16,12 +16,13 @@ namespace SecretSanta.Data
         public DbSet<Group> Group { get; set; }
         private IHttpContextAccessor HttpContextAccessor { get; }
 
+#nullable disable
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
         {
             HttpContextAccessor = httpContextAccessor;
         }
-
+#nullable enable
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -40,9 +41,38 @@ namespace SecretSanta.Data
             return base.SaveChanges();
         }
 
+        public override Task<int> SaveChangesAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            AddFingerPrinting();
+            return base.SaveChangesAsync(cancellationToken);
+        }
+
         private void AddFingerPrinting()
         {
+            var modified = ChangeTracker.Entries().Where(e => e.State == EntityState.Modified);
+            var added = ChangeTracker.Entries().Where(e => e.State == EntityState.Added);
 
+            foreach(var entry in added)
+            {
+                var fingerPrintEntity = entry.Entity as FingerPrintyEntityBase;
+                if (fingerPrintEntity != null)
+                {
+                    fingerPrintEntity.CreatedOn = DateTime.UtcNow;
+                    fingerPrintEntity.CreatedBy = HttpContextAccessor?.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier).Value ?? "";
+                    fingerPrintEntity.ModifiedOn = DateTime.UtcNow;
+                    fingerPrintEntity.ModifiedBy = HttpContextAccessor?.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier).Value ?? "";
+                }
+            }
+
+            foreach(var entry in modified)
+            {
+                var fingerPrintEntity = entry.Entity as FingerPrintyEntityBase;
+                if (fingerPrintEntity != null)
+                {
+                    fingerPrintEntity.ModifiedOn = DateTime.UtcNow;
+                    fingerPrintEntity.ModifiedBy = HttpContextAccessor?.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier).Value ?? "";
+                }
+            }
         }
     }
 }

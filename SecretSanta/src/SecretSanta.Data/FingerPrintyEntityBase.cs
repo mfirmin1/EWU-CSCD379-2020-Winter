@@ -7,12 +7,12 @@ namespace SecretSanta.Data
     public class FingerPrintyEntityBase : EntityBase
     {
         private string _CreatedBy = String.Empty;
-        private string _Modification = String.Empty;
+        private string _ModifiedBy = String.Empty;
         public DateTime CreatedOn { get; set; }
         public DateTime ModifiedOn { get; set; }
 
         public string CreatedBy { get => _CreatedBy; set => _CreatedBy = value ?? throw new ArgumentNullException(nameof(CreatedBy)); }
-        public string Modification { get => _Modification; set => _Modification = value ?? throw new ArgumentNullException(nameof(Modification)); }
+        public string ModifiedBy { get => _ModifiedBy; set => _ModifiedBy = value ?? throw new ArgumentNullException(nameof(ModifiedBy)); }
         
 
     }
