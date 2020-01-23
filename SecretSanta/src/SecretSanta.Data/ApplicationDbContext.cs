@@ -30,9 +30,16 @@ namespace SecretSanta.Data
             {
                 throw new ArgumentNullException(nameof(modelBuilder));
             }
-            modelBuilder.Entity<UserGroupRelation>().HasKey(gur => new { gur.UserId, gur.GroupId});
-            modelBuilder.Entity<UserGroupRelation>().HasOne(gur => gur.Group).WithMany(ur => ur.UserGroupRelations).HasForeignKey(gur => gur.UserId);
-            modelBuilder.Entity<UserGroupRelation>().HasOne(gur => gur.User).WithMany(gu => gu.UserGroupRelations).HasForeignKey(gur => gur.GroupId);
+            modelBuilder.Entity<UserGroupRelation>()
+                .HasKey(gur => new { gur.UserId, gur.GroupId});
+
+            modelBuilder.Entity<UserGroupRelation>()
+                .HasOne(gur => gur.Group).WithMany(ur => ur.UserGroupRelations)
+                .HasForeignKey(gur => gur.UserId);
+
+            modelBuilder.Entity<UserGroupRelation>()
+                .HasOne(gur => gur.User).WithMany(gu => gu.UserGroupRelations)
+                .HasForeignKey(gur => gur.GroupId);
         }
 
         public override int SaveChanges()
