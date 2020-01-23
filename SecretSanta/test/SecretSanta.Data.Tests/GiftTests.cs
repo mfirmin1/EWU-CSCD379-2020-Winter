@@ -18,14 +18,14 @@ namespace SecretSanta.Data.Tests
         public async Task Gift_CreatedForeignRelation_Sucess()
         {
             //Arrange
-            var gift = new Gift
+            Gift gift = new Gift
             {
                 Title = "This is a book",
                 Description = "This is a magical fantasy book",
                 Url = "https://www.ThisIsAMagicalUrl.com"
             };
 
-            var user = new User
+            User user = new User
             {
                 FirstName = "Doctor",
                 LastName = "Who",
@@ -45,10 +45,13 @@ namespace SecretSanta.Data.Tests
             //Assert
             using (ApplicationDbContext dbContext = new ApplicationDbContext(Options))
             {
-                var gifts = await dbContext.Gift.Include(g => g.User).ToListAsync();
-                Assert.AreEqual(1, gifts.Count);
-                Assert.AreEqual(gift.Title, gifts[0].Title);
-                Assert.AreNotEqual(0, gifts[0].Id);
+                Gift gifts = await dbContext.Gift.Include(g => g.User).SingleOrDefaultAsync();
+                Assert.AreEqual(1, gift.Id);
+                Assert.AreEqual(gift.Title, gifts.Title);
+                Assert.AreNotEqual(0, gifts.Id);
+                Assert.AreEqual("Doctor", gifts.User.FirstName);
+                Assert.AreEqual("Who", gifts.User.LastName);
+                Assert.AreEqual("This is a magical fantasy book", gifts.Description);
             }
         }
     }

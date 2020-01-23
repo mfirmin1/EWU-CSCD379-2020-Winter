@@ -55,12 +55,12 @@ namespace SecretSanta.Data.Tests
             //Assert
             using (ApplicationDbContext dbContext = new ApplicationDbContext(Options, httpContextAccessor))
             {
-                var retrievedGift = await dbContext.Gift.Where(g => g.Id == gift.Id).Include(g => g.User).ThenInclude(g => g.UserGroupRelations).ThenInclude(g => g.Group).SingleOrDefaultAsync();
+                var gif = await dbContext.Gift.Where(g => g.Id == gift.Id).Include(g => g.User).ThenInclude(g => g.UserGroupRelations).ThenInclude(g => g.Group).SingleOrDefaultAsync();
 
-                Assert.IsNotNull(retrievedGift);
-                Assert.AreEqual(2, retrievedGift.User.UserGroupRelations.Count);
-                Assert.IsNotNull(retrievedGift.User.UserGroupRelations[0]);
-                Assert.IsNotNull(retrievedGift.User.UserGroupRelations[1]);
+                Assert.IsNotNull(gif);
+                Assert.AreEqual(2, gif.User.UserGroupRelations.Count);
+                Assert.IsNotNull(gif.User.UserGroupRelations[0]);
+                Assert.IsNotNull(gif.User.UserGroupRelations[1]);
             }
         }
     }
