@@ -96,7 +96,10 @@ namespace SecretSanta.Data.Tests
         [TestMethod]
         public async Task CreateAuthor_ModifedBbyAnother_Sucess()
         {
-            IHttpContextAccessor httpContextAccessor = Mock.Of<IHttpContextAccessor>(hta => hta.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier) == new Claim(ClaimTypes.NameIdentifier, "iromad"));
+            IHttpContextAccessor httpContextAccessor = Mock.Of<IHttpContextAccessor>
+                (hta => hta.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier) == 
+                new Claim(ClaimTypes.NameIdentifier, "iromad"));
+
             int userId = -1;
             using (ApplicationDbContext applicationDbContext = new ApplicationDbContext(Options, httpContextAccessor))
             {
@@ -123,7 +126,10 @@ namespace SecretSanta.Data.Tests
                 userId = user.Id;
             }
             //Act
-            httpContextAccessor = Mock.Of<IHttpContextAccessor>(hta => hta.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier) == new Claim(ClaimTypes.NameIdentifier, "robocop"));
+            httpContextAccessor = Mock.Of<IHttpContextAccessor>
+                (hta => hta.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier) == 
+                new Claim(ClaimTypes.NameIdentifier, "robocop"));
+
             using (ApplicationDbContext applicationDbContext = new ApplicationDbContext(Options, httpContextAccessor))
             {
                 User user = await applicationDbContext.User.Where(u => u.Id == userId).SingleOrDefaultAsync();
