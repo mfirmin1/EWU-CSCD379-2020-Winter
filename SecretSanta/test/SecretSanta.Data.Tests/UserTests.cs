@@ -19,9 +19,9 @@ namespace SecretSanta.Data.Tests
         {
             int userId = -1;
             //Assert
-            using (var applicationDbContext = new ApplicationDbContext(Options))
+            using (ApplicationDbContext applicationDbContext = new ApplicationDbContext(Options))
             {
-                var user = new User
+                User user = new User
                 {
                     FirstName = "Robo",
                     LastName = "Cop",
@@ -31,7 +31,7 @@ namespace SecretSanta.Data.Tests
                 };
                 applicationDbContext.User.Add(user);
 
-                var user2 = new User
+                User user2 = new User
                 {
                     FirstName = "Iron",
                     LastName = "Maiden",
@@ -46,9 +46,9 @@ namespace SecretSanta.Data.Tests
             }
             //Act
             //Assert
-            using (var applicationDbContext = new ApplicationDbContext(Options))
+            using (ApplicationDbContext applicationDbContext = new ApplicationDbContext(Options))
             {
-                var user = await applicationDbContext.User.Where(u => u.Id == userId).SingleOrDefaultAsync();
+                User user = await applicationDbContext.User.Where(u => u.Id == userId).SingleOrDefaultAsync();
 
                 Assert.IsNotNull(user);
                 Assert.AreEqual("Robo", user.FirstName);
@@ -60,9 +60,9 @@ namespace SecretSanta.Data.Tests
             IHttpContextAccessor httpContextAccessor = Mock.Of<IHttpContextAccessor>(hta => hta.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier) == new Claim(ClaimTypes.NameIdentifier, "iromad"));
             int userId = -1;
             //Arrange
-            using (var applicationDbContext = new ApplicationDbContext(Options, httpContextAccessor))
+            using (ApplicationDbContext applicationDbContext = new ApplicationDbContext(Options, httpContextAccessor))
             {
-                var user = new User
+                User user = new User
                 {
                     FirstName = "Robo",
                     LastName = "Cop",
@@ -72,7 +72,7 @@ namespace SecretSanta.Data.Tests
                 };
                 applicationDbContext.User.Add(user);
 
-                var user2 = new User
+                User user2 = new User
                 {
                     FirstName = "Iron",
                     LastName = "Maiden",
@@ -84,13 +84,13 @@ namespace SecretSanta.Data.Tests
                 await applicationDbContext.SaveChangesAsync();
                 userId = user.Id;
             }
-            using (var applicationDbContext = new ApplicationDbContext(Options, httpContextAccessor))
+            using (ApplicationDbContext applicationDbContext = new ApplicationDbContext(Options, httpContextAccessor))
             {
-                var author = await applicationDbContext.User.Where(u => u.Id == userId).SingleOrDefaultAsync();
+                User user = await applicationDbContext.User.Where(u => u.Id == userId).SingleOrDefaultAsync();
 
-                Assert.IsNotNull(author);
-                Assert.AreEqual("iromad", author.CreatedBy);
-                Assert.AreEqual("iromad", author.ModifiedBy);
+                Assert.IsNotNull(user);
+                Assert.AreEqual("iromad", user.CreatedBy);
+                Assert.AreEqual("iromad", user.ModifiedBy);
             }
         }
         [TestMethod]
@@ -98,9 +98,9 @@ namespace SecretSanta.Data.Tests
         {
             IHttpContextAccessor httpContextAccessor = Mock.Of<IHttpContextAccessor>(hta => hta.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier) == new Claim(ClaimTypes.NameIdentifier, "iromad"));
             int userId = -1;
-            using (var applicationDbContext = new ApplicationDbContext(Options, httpContextAccessor))
+            using (ApplicationDbContext applicationDbContext = new ApplicationDbContext(Options, httpContextAccessor))
             {
-                var user = new User
+                User user = new User
                 {
                     FirstName = "Robo",
                     LastName = "Cop",
@@ -110,7 +110,7 @@ namespace SecretSanta.Data.Tests
                 };
                 applicationDbContext.User.Add(user);
 
-                var user2 = new User
+                User user2 = new User
                 {
                     FirstName = "Iron",
                     LastName = "Maiden",
@@ -124,18 +124,18 @@ namespace SecretSanta.Data.Tests
             }
             //Act
             httpContextAccessor = Mock.Of<IHttpContextAccessor>(hta => hta.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier) == new Claim(ClaimTypes.NameIdentifier, "robocop"));
-            using (var applicationDbContext = new ApplicationDbContext(Options, httpContextAccessor))
+            using (ApplicationDbContext applicationDbContext = new ApplicationDbContext(Options, httpContextAccessor))
             {
-                var user = await applicationDbContext.User.Where(u => u.Id == userId).SingleOrDefaultAsync();
+                User user = await applicationDbContext.User.Where(u => u.Id == userId).SingleOrDefaultAsync();
                 user.FirstName = "Avatar";
                 user.LastName = "Aang";
 
                 await applicationDbContext.SaveChangesAsync();
             }
             //Arrange
-            using (var applicationDbContext = new ApplicationDbContext(Options, httpContextAccessor))
+            using (ApplicationDbContext applicationDbContext = new ApplicationDbContext(Options, httpContextAccessor))
             {
-                var user = await applicationDbContext.User.Where(u => u.Id == userId).SingleOrDefaultAsync();
+                User user = await applicationDbContext.User.Where(u => u.Id == userId).SingleOrDefaultAsync();
 
                 Assert.IsNotNull(user);
                 Assert.AreEqual("iromad", user.CreatedBy);
