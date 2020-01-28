@@ -16,5 +16,14 @@ namespace SecretSanta.Data
         public User User { get; set; }
 #nullable enable
         public int UserId { get; set; }
+
+        public Gift(string title, string description, string url, User user, int userId)
+        {
+            Title = title;
+            Description = description;
+            Url = url;
+            User = user;
+            userId = userId;
+        }
     }
 }
