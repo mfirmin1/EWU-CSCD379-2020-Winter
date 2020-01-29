@@ -26,7 +26,7 @@ namespace SecretSanta.Data.Tests
 
                 Assert.AreEqual(1, gifts.Count);
                 Assert.AreEqual(SampleData.Ring, gifts[0].Title);
-               // Assert.AreEqual(SampleData.RingUrl, gifts[0].Url);
+                Assert.AreEqual(SampleData.RingUrl, gifts[0].Url);
                 Assert.AreEqual(SampleData.RingDescription, gifts[0].Description);
             }
         }
