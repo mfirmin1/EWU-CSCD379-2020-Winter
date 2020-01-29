@@ -16,14 +16,19 @@ namespace SecretSanta.Data
         public User User { get; set; }
 #nullable enable
         public int UserId { get; set; }
-
-        public Gift(string title, string description, string url, User user, int userId)
+        //Justification: 
+#pragma warning disable CA1062 // Validate arguments of public methods
+        public Gift(string title, string url, string description, User user) : this(title, url, description, user.Id)
+#pragma warning restore CA1062 // Validate arguments of public methods
+        {
+            User = user;
+        }
+        private Gift(string title, string url, string description, int userId)
         {
             Title = title;
-            Description = description;
             Url = url;
-            User = user;
-            userId = userId;
+            Description = description;
+            UserId = userId;
         }
     }
 }
