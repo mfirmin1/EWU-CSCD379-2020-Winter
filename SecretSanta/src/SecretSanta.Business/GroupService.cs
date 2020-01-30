@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SecretSanta.Business
 {
-    public class GroupService : EntityService<Group>, IEntityService<Group>
+    public class GroupService : EntityService<Group>
     {
         public GroupService(ApplicationDbContext applicationDbContext, IMapper mapper) :
             base(applicationDbContext, mapper)
