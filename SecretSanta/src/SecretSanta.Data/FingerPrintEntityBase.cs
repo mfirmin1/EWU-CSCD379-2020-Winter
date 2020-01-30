@@ -8,12 +8,12 @@ namespace SecretSanta.Data
     public class FingerPrintEntityBase : EntityBase
     {
         [Required]
-        public string CreatedBy { get; set; } = String.Empty;
+        public string CreatedBy { get; internal  set; } = String.Empty;
         [Required]
-        public DateTime CreatedOn { get; set; }
+        public DateTime CreatedOn { get; internal set; }
         [Required]
-        public string ModifiedBy { get; set; } = String.Empty;
+        public string ModifiedBy { get; internal set; } = String.Empty;
         [Required]
-        public DateTime ModifiedOn { get; set; }
+        public DateTime ModifiedOn { get; internal set; }
     }
 }
