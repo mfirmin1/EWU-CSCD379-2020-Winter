@@ -13,6 +13,7 @@ namespace SecretSanta.Business
         {
             CreateMap<Gift, Gift>().ForMember(property => property.Id, option => option.Ignore());
             CreateMap<User, User>().ForMember(property => property.Id, option => option.Ignore());
+            CreateMap<Group, Group>().ForMember(proerty => proerty.Id, option => option.Ignore());
         }
 
         public static IMapper CreateMapper()
