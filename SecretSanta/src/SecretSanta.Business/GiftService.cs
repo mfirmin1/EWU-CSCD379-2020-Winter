@@ -8,7 +8,7 @@ using AutoMapper;
 
 namespace SecretSanta.Business
 {
-    public class GiftService : EntityService<Gift>, IEntityService<Gift>
+    public class GiftService : EntityService<Gift>
     {
         public GiftService(ApplicationDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
