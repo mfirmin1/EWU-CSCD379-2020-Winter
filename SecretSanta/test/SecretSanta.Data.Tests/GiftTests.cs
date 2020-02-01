@@ -31,7 +31,7 @@ namespace SecretSanta.Data.Tests
             }
         }
         [TestMethod]
-        public async Task Gift()
+        public async Task Create_Gift_CheckFIngerPrintData()
         {
             //Arrange
             using (ApplicationDbContext dbContext = new ApplicationDbContext(Options))
@@ -52,7 +52,7 @@ namespace SecretSanta.Data.Tests
             }
         }
         [TestMethod]
-        public async Task Gift1()
+        public async Task Create_GiftUser_ForeignRelation()
         {
             using (ApplicationDbContext dbContext = new ApplicationDbContext(Options))
             {
