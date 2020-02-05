@@ -10,6 +10,7 @@ using SecretSanta.Data;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SecretSanta.Data.Tests;
+using System.Linq;
 
 namespace SecretSanta.Api.Tests
 {
@@ -46,21 +47,50 @@ namespace SecretSanta.Api.Tests
 
             Assert.IsTrue(ar.Result is OkObjectResult);
         }
+        [TestMethod]
+        public async Task DeleteGroup_Sucess()
+        {
+            var service = new GroupTestService();
+            Group group = SampleData.CreateRohan;
+            group = await service.InsertAsync(group);
+
+            var controller = new GroupController(service);
+
+            ActionResult<bool> ar = await controller.Delete(group.Id);
+            Assert.IsTrue(ar.Result is OkObjectResult);
+        }
+
+        [TestMethod]
+        public async Task Update_GroupSucess()
+        {
+            var service = new GroupTestService();
+            Group group = SampleData.CreateGondor;
+            group = await service.InsertAsync(group);
+
+            group.Title = "Modor";
+            var controller = new GroupController(service);
+
+            ActionResult<Group> ar = await controller.Put(group.Id, group);
+            Assert.AreEqual("Modor", ar.Value.Title);
+        }
+
         private class GroupTestService : IGroupService
         {
             private Dictionary<int, Group> Items { get; } = new Dictionary<int, Group>();
 
             public Task<bool> DeleteAsync(int id)
             {
-                throw new NotImplementedException();
+                return Task.FromResult(Items.Remove(id));
             }
 
             public Task<List<Group>> FetchAllAsync()
             {
-                throw new NotImplementedException();
+                List<Group> groupList = Items.Values.ToList();
+                return Task.FromResult(groupList);
             }
-
+#pragma warning disable CS8613 // Nullability of reference types in return type doesn't match implicitly implemented member.
             public Task<Group?> FetchByIdAsync(int id)
+#pragma warning restore CS8613 // Nullability of reference types in return type doesn't match implicitly implemented member.
             {
                 if (Items.TryGetValue(id, out Group? group))
                 {
@@ -80,12 +110,17 @@ namespace SecretSanta.Api.Tests
 
             public Task<Group[]> InsertAsync(params Group[] entity)
             {
-                throw new NotImplementedException();
+                foreach (Group group in entity)
+                {
+                    InsertAsync(group);
+                }
+                return Task.FromResult(entity);
             }
 
             public Task<Group?> UpdateAsync(int id, Group entity)
             {
-                throw new NotImplementedException();
+                Items[id] = entity;
+                return Task.FromResult<Group?>(Items[id]);
             }
 
             private class TestGroup : Group

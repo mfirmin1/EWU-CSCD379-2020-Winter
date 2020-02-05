@@ -49,16 +49,19 @@ namespace SecretSanta.Api.Controllers
         {
             if (await EntityService.UpdateAsync(id, entity) is TEntity value)
             {
-                return Ok(value);
+                return entity;
             }
             return NotFound();
         }
         [HttpDelete]
-        public async Task<IActionResult> Delete(int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> Delete(int id)
         {
             if (await EntityService.DeleteAsync(id))
             {
-                return Ok();
+                return Ok(true);
             }
             return NotFound();
         }
