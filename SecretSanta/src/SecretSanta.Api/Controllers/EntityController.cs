@@ -12,7 +12,8 @@ using SecretSanta.Data;
 namespace SecretSanta.Api.Controllers
 {
     [Route("api/[Controller]")]
-    public class EntityController<TEntity> : ControllerBase where TEntity : class
+    [ApiController]
+    public abstract class EntityController<TEntity> : ControllerBase where TEntity : class
     {
         private IEntityService<TEntity> EntityService { get;  } 
 
@@ -38,9 +39,11 @@ namespace SecretSanta.Api.Controllers
             return NotFound();
         }
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<TEntity>> Post(TEntity entity)
         {
-            return await EntityService.InsertAsync(entity);
+            return Ok(await EntityService.InsertAsync(entity));
         }
         [HttpPut("Id")]
         [ProducesResponseType(StatusCodes.Status200OK)]
