@@ -90,6 +90,20 @@ namespace SecretSanta.Api.Tests
             ActionResult<User> ar = await controller.Get(0);
             Assert.IsTrue(ar.Result is NotFoundResult);
         }
+        /*
+         * Couldn't quite get the Post. 
+        [TestMethod]
+        public async Task Post_User_Sucess()
+        {
+            var service = new UserTestService();
+            User user = SampleData.CreateBilboBaggins();
+            user = await service.InsertAsync(user);
+
+            var controller = new UserController(service);
+
+            ActionResult<User> ar = await controller.Post(user);
+            Assert.IsTrue(ar is OkObjectResult);
+        }*/
         /*[TestMethod]
         public async Task ModififedBy_Sucess()
         {
