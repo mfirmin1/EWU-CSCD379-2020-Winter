@@ -84,6 +84,18 @@ namespace SecretSanta.Api.Tests
             Assert.AreEqual("Bilbo", ar.Value.User.FirstName);
             Assert.AreEqual("Baggins", ar.Value.User.LastName);
         }
+        [TestMethod]
+        public async Task Get_ExistingGift_NoId()
+        {
+            var service = new GiftTestService();
+            Gift gift = SampleData.CreateHelloWorldScam();
+            gift = await service.InsertAsync(gift);
+
+            var controller = new GiftController(service);
+
+            ActionResult<Gift> ar = await controller.Get(0);
+            Assert.IsTrue(ar.Result is NotFoundResult);
+        }
 
         private class GiftTestService : IGiftService
         {

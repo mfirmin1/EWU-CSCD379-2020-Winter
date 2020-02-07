@@ -78,6 +78,18 @@ namespace SecretSanta.Api.Tests
             Assert.AreEqual("lob", ar.Value.LastName);
         }
 
+        [TestMethod]
+        public async Task Get_ExistingUser_NoId()
+        {
+            var service = new UserTestService();
+            User user = SampleData.CreateBilboBaggins();
+            user = await service.InsertAsync(user);
+
+            var controller = new UserController(service);
+
+            ActionResult<User> ar = await controller.Get(0);
+            Assert.IsTrue(ar.Result is NotFoundResult);
+        }
         /*[TestMethod]
         public async Task ModififedBy_Sucess()
         {

@@ -73,7 +73,18 @@ namespace SecretSanta.Api.Tests
             ActionResult<Group> ar = await controller.Put(group.Id, group);
             Assert.AreEqual("Modor", ar.Value.Title);
         }
+        [TestMethod]
+        public async Task Get_ExistingGroup_NoId()
+        {
+            var service = new GroupTestService();
+            Group group = SampleData.CreateRohan;
+            group = await service.InsertAsync(group);
 
+            var controller = new GroupController(service);
+
+            ActionResult<Group> ar = await controller.Get(0);
+            Assert.IsTrue(ar.Result is NotFoundResult);
+        }
         private class GroupTestService : IGroupService
         {
             private Dictionary<int, Group> Items { get; } = new Dictionary<int, Group>();
