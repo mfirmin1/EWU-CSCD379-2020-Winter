@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
 using SecretSanta.Business;
 using SecretSanta.Business.Services;
 using SecretSanta.Data;
@@ -18,16 +19,17 @@ namespace SecretSanta.Api
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public static void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ApplicationDbContext>(opts => opts.EnableSensitiveDataLogging()
+                    .UseSqlite("Data Source=SSanta.db"));
+
+            services.AddAutoMapper(new[] { typeof(AutomapperConfigurationProfile).Assembly });
             services.AddMvc(options => options.EnableEndpointRouting = false);
-            services.AddSwaggerDocument();
 
             services.AddScoped<IGiftService, GiftService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IGroupService, GroupService>();
 
-            services.AddDbContext<ApplicationDbContext>();
-
-            services.AddAutoMapper(new[] { typeof(AutomapperConfigurationProfile).Assembly });
+            services.AddSwaggerDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,7 +39,7 @@ namespace SecretSanta.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseRouting();
             app.UseOpenApi();
             app.UseSwaggerUi3();
 

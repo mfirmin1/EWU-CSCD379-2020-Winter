@@ -1,24 +1,60 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using AutoMapper;
 using SecretSanta.Api.Controllers;
 using SecretSanta.Business;
 using SecretSanta.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace SecretSanta.Api.Tests.Controllers
 {
     [TestClass]
-    public abstract class BaseApiControllerTests<TEntity, TService> 
+    public abstract class BaseApiControllerTests<TEntity, TDto, TInputDto>
         where TEntity : EntityBase
-        where TService : InMemoryEntityService<TEntity>, new()
+        where TDto : class, TInputDto
+        where TInputDto : class
     {
-        protected abstract BaseApiController<TEntity> CreateController(TService service);
-
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
+        protected SecretSantaWebApplicationFactory Factory { get; set; }
+        protected HttpClient Client { get; set; }
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
+        protected IMapper Mapper { get; set; } = AutomapperConfigurationProfile.CreateMapper();
         protected abstract TEntity CreateEntity();
 
+        [TestInitialize]
+        public void TestSetUp()
+        {
+            Factory = new SecretSantaWebApplicationFactory();
+            using ApplicationDbContext context = Factory.GetDbContext();
+            context.Database.EnsureCreated();
+            Client = Factory.CreateClient();
+            SeedData();
+        }
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            Factory.Dispose();
+        }
+        public void SeedData()
+        {
+            using ApplicationDbContext context = Factory.GetDbContext();
+
+            for(int i = 0; i < 12; i++)
+            {
+                TEntity entity = CreateEntity();
+                context.Add(entity);
+                context.SaveChanges();
+            }
+        }
+
+        /*
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Constructor_RequiresService()
@@ -164,6 +200,6 @@ namespace SecretSanta.Api.Tests.Controllers
                 return Task.FromResult<TEntity?>(entity);
             }
             return Task.FromResult(default(TEntity));
-        }
+        }*/
     }
 }

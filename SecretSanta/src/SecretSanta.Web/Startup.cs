@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace SecretSanta.Web
 {
@@ -12,9 +13,11 @@ namespace SecretSanta.Web
     {
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        //public void ConfigureServices(IServiceCollection services)
-        //{
-        //}
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddMvc(opts => opts.EnableEndpointRouting = false);
+            services.AddHttpClient("SecretSantaApi");
+        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -25,14 +28,9 @@ namespace SecretSanta.Web
             }
 
             app.UseRouting();
-
-            app.UseEndpoints(endpoints =>
-            {
-                _ = endpoints.MapGet("/", async context =>
-                  {
-                      await context.Response.WriteAsync("Hello from Web!");
-                  });
-            });
+            app.UseMvcWithDefaultRoute();
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
         }
     }
 }
