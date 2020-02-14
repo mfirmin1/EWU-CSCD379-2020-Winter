@@ -42,11 +42,12 @@ namespace SecretSanta.Api.Tests.Controllers
         {
             Factory.Dispose();
         }
+        //Not positive I did the seed date correctly
         public void SeedData()
         {
             using ApplicationDbContext context = Factory.GetDbContext();
 
-            for(int i = 0; i < 12; i++)
+            for(int i = 0; i < 10; i++)
             {
                 TEntity entity = CreateEntity();
                 context.Add(entity);
