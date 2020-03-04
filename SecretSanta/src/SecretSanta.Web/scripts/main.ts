@@ -1,6 +1,9 @@
 ﻿import '../styles/site.scss';
 import { App } from './app';
 import { Gift } from './secretsanta-client';
+import GiftsComponent from './components/Gift/giftComponent.vue'
+import UsersComponent from './components/User/userComponent.vue'
+import GroupsComponent from './components/Group/groupComponent.vue'
 
 document.addEventListener("DOMContentLoaded", async () => {
     let app = new App.Main();
