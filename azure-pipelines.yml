@@ -1,16 +1,11 @@
-# ASP.NET Core
-# Build and test ASP.NET Core projects targeting .NET Core.
-# Add steps that run tests, create a NuGet package, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-
 trigger:
-- Assignment10*
+- Assignment*
 
 pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  BuildConfiguration: 'Release'
+  buildConfiguration: 'Release'
 
 
 steps:
@@ -29,14 +24,11 @@ steps:
     command: 'custom'
     workingDir: 'SecretSanta/src/SecretSanta.Web'
     customCommand: 'run build:prod'
-
 - task: DotNetCoreCLI@2
-
   inputs:
     command: 'build'
     projects: '**/*.csproj'
 - task: DotNetCoreCLI@2
-
   inputs:
     command: 'test'
     projects: '**/test/**/*.csproj'
@@ -48,10 +40,11 @@ steps:
     projects: |
       **/SecretSanta.Api.csproj
       **/SecretSanta.Web.csproj
-    arguments: '--configuration $(BuildConfiguration) --output "$(Build.ArtifactStagingDirectory)"'
+    arguments: '--configuration $(BuildConfiguration) --output "$(build.artifactstagingdirectory)"'
 
+    
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
+    ArtifactName: 'drop' 
     publishLocation: 'Container'
